@@ -29,6 +29,9 @@ export default {
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
+## Add .env file in the root of your project. Add the following data.
+  1. VITE_API_URL=http://localhost:4000
+## Keep the chat-app-server backend running locally in your device.
 ## Run the following commands in the terminal
   1. npm install
   2. npm run dev
