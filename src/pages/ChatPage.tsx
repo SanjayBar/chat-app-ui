@@ -52,7 +52,21 @@ function ChatPage() {
 
   useEffect(() => {
     if (messagesRef.current) {
-      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+      const newMessage = messagesRef.current.lastElementChild as HTMLDivElement;
+      if (newMessage) {
+        const newMessageHeigth = newMessage.offsetHeight;
+
+        const visibleHeight = messagesRef.current.offsetHeight;
+
+        const containerHeight = messagesRef.current.scrollHeight;
+
+        const scrollOffset = messagesRef.current.scrollTop + visibleHeight;
+
+        // Only scroll if user did not scrolled up
+        if (containerHeight - newMessageHeigth <= scrollOffset + 20) {
+          messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+        }
+      }
     }
   }, [messages]);
 
@@ -82,7 +96,7 @@ function ChatPage() {
       style={{ height: "calc(100vh - 64px)" }}
       className='w-full max-w-3xl mx-auto'
     >
-      <div className='relative w-full h-full pb-20 border-2'>
+      <div className='relative w-full h-full pb-20 border-[1px] drop-shadow-sm'>
         <div className='flex items-end justify-end w-full h-full px-4'>
           <div
             ref={messagesRef}
