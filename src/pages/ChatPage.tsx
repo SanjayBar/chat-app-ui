@@ -120,7 +120,7 @@ function ChatPage() {
           >
             {messages.map((message, index) => (
               <div key={index} className='px-6 py-2 bg-gray-100 rounded-md'>
-                <div className='text-xs flex gap-2'>
+                <div className='flex gap-2 text-xs'>
                   <span className='font-bold'>
                     {message.username === name ? "You" : message.username}
                   </span>
@@ -143,15 +143,15 @@ function ChatPage() {
             <DialogTrigger asChild>
               <Button>Users</Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className='max-h-screen'>
               <DialogHeader>
                 <DialogTitle>List of users</DialogTitle>
               </DialogHeader>
-              <div className='space-y-3'>
+              <div className='max-h-full space-y-3 overflow-y-auto'>
                 {roomData &&
                   roomData?.users.map((user, index) => (
                     <div
-                      className='text-base px-2 py-1 rounded-md bg-gray-200'
+                      className='px-2 py-1 text-base bg-gray-200 rounded-md'
                       key={index}
                     >
                       {user}
