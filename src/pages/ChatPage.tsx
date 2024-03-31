@@ -8,6 +8,13 @@ import { Input } from "@/components/ui/input";
 import { getTimeInFormat } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 function ChatPage() {
   const [socket, setSocket] = useState<Socket<
@@ -24,6 +31,12 @@ function ChatPage() {
   const searchParams = new URLSearchParams(location.search);
   const roomId = searchParams.get("room-id");
   const messagesRef = useRef<HTMLDivElement>(null);
+  const [roomData, setRoomData] = useState<{
+    room: string;
+    users: string[];
+  } | null>(null);
+
+  console.log(roomData);
 
   useEffect(() => {
     if (token && roomId) {
@@ -43,6 +56,9 @@ function ChatPage() {
       });
       socket.on("message", (msg) => {
         setMessages((prev) => [...prev, msg]);
+      });
+      socket.on("roomData", (data) => {
+        setRoomData(data);
       });
       return () => {
         socket.disconnect();
@@ -123,7 +139,27 @@ function ChatPage() {
             placeholder='Type message...'
             autoComplete='off'
           />
-
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>Users</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>List of users</DialogTitle>
+              </DialogHeader>
+              <div className='space-y-3'>
+                {roomData &&
+                  roomData?.users.map((user, index) => (
+                    <div
+                      className='text-base px-2 py-1 rounded-md bg-gray-200'
+                      key={index}
+                    >
+                      {user}
+                    </div>
+                  ))}
+              </div>
+            </DialogContent>
+          </Dialog>
           <Button onClick={onSendBtnClick} className='text-base h-14 '>
             Send
           </Button>
